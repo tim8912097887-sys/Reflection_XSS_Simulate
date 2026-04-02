@@ -1,0 +1,38 @@
+services:
+  mongo_server:
+    image: mongo:latest
+    container_name: mongo_server_container
+    ports:
+      - 27017:27017
+    networks:
+      - xss-net
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+  central_bank_server:
+    build:
+      context: ./central_bank
+      dockerfile: Dockerfile
+    container_name: central_bank_server_container
+    ports:
+      - 3000:3000
+    env_file:
+      - ./central_bank/.env.dev
+    networks:
+      - xss-net
+    depends_on:
+      mongo_server:
+        condition: service_healthy
+    restart: always
+networks:
+  xss-net:
+    driver: bridge
+volumes:
+  mongo_data:

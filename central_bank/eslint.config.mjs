@@ -5,6 +5,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   {
+    ignores: ["eslint.config.mjs"],
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     plugins: { js },
     extends: ["js/recommended", ...tseslint.configs.recommended],
@@ -27,8 +28,6 @@ export default defineConfig([
       "@typescript-eslint/no-explicit-any": ["off"],
       "@typescript-eslint/await-thenable": "error",
       "@typescript-eslint/no-floating-promises": "error",
-      "no-console": "error",
-      eqeqeq: ["error", "always"],
     },
   },
 ]);

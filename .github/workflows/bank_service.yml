@@ -1,0 +1,63 @@
+name: Build and Lint
+on: 
+  push:
+    branches:
+      - main
+      - development
+      - central_bank
+    paths: 
+      - 'central_bank/**'
+  pull_request:
+    branches:
+      - main
+      - development
+    paths:
+      - 'central_bank/**'
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Install Pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.26.1
+          standalone: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: './central_bank/pnpm-lock.yaml'
+      - name: Install Dependencies
+        run: pnpm install
+        working-directory: ./central_bank
+      - name: Run Lint
+        run: pnpm run lint
+        working-directory: ./central_bank
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Install Pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.26.1
+          standalone: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: './central_bank/pnpm-lock.yaml'
+      - name: Install Dependencies
+        run: pnpm install
+        working-directory: ./central_bank
+      - name: Run Build
+        run: pnpm run build
+        working-directory: ./central_bank

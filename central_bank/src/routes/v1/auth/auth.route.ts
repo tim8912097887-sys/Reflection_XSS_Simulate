@@ -9,6 +9,7 @@ import { CreateUserSchema } from "./schema/signup.js";
 import AuthRepository from "./auth.repository.js";
 import AuthService from "./auth.service.js";
 import { AuthModel } from "./auth.model.js";
+import { sessionCheck } from "@/middlewares/sessionCheck.js";
 
 // Initialize Instance
 const authRepository = new AuthRepository(AuthModel);
@@ -27,4 +28,4 @@ authRouter.post(
   schemaValidator(CreateUserSchema),
   authController.signupUser,
 );
-authRouter.post("/logout", authController.logout);
+authRouter.post("/logout", sessionCheck, authController.logout);

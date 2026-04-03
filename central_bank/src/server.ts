@@ -25,8 +25,8 @@ class AppServer {
 
   public async start(): Promise<void> {
     try {
-      await dbConnection();
-      const app = initializeApp();
+      const mongoConnection = await dbConnection();
+      const app = initializeApp(mongoConnection);
       this.server = app.listen(env.PORT, () => {
         logger.info(`Server initialization: Server start on port ${env.PORT}`);
       });

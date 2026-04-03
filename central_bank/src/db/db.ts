@@ -4,6 +4,7 @@ import { env } from "@/configs/env.js";
 import { subscribeShutdown } from "@/utils/shutdown.js";
 
 export const dbConnection = async () => {
+  let mongoConnection: mongoose.Mongoose;
   // Handle database event
   mongoose.connection.on("error", (error) => {
     logger.error(`Database Connection Error: ${error.message}`);
@@ -17,7 +18,7 @@ export const dbConnection = async () => {
   );
   const start = Date.now();
   try {
-    await mongoose.connect(env.MONGO_URI, {
+    mongoConnection = await mongoose.connect(env.MONGO_URI, {
       // Fail fast to try next server
       connectTimeoutMS: 5000,
       // Handle high traffic
@@ -47,6 +48,7 @@ export const dbConnection = async () => {
     logger.error(`Database Connection Error: ${error}`);
     throw error;
   }
+  return mongoConnection;
 };
 
 const dbDisconnection = async () => {

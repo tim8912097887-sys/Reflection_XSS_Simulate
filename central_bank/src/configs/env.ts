@@ -37,6 +37,17 @@ const EnvSchema = z.object({
     .int()
     .positive("Salt must be a positive integer")
     .default(10),
+  SESSION_SECRET: z
+    .string()
+    .min(32, "Session secret must be at least 32 characters"),
+
+  SESSION_MAX_AGE: z.coerce
+    .number({
+      error: "Session max age must be a number",
+    })
+    .int()
+    .positive("Session max age must be a positive integer")
+    .default(86400000), // 24 hours in milliseconds
 });
 
 const result = EnvSchema.safeParse(process.env);

@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { errorHandler } from "@/middlewares/errorHandler.js";
 import { notFoundHandler } from "@/middlewares/notFoundHandler.js";
+import { authRouter } from "./routes/v1/auth/auth.route.js";
 
 export const initializeApp = () => {
   const app = express();
@@ -24,6 +25,8 @@ export const initializeApp = () => {
     });
   });
 
+  // Routes
+  app.use("/api/v1/auth", authRouter);
   // Error Handler
   app.use(errorHandler);
   app.use(notFoundHandler);

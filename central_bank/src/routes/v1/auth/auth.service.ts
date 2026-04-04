@@ -42,8 +42,4 @@ export default class AuthService {
     const createdUser = await this.authRepository.createUser(user);
     return { createdUser };
   };
-
-  logout = async () => {
-    return;
-  };
 }

@@ -11,7 +11,6 @@ export default class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   loginUser: RequestHandler = async (req, res) => {
-    console.log(req.session);
     const { existUser: user } = await this.authService.login(req.validData);
     req.session.user = user;
     const data = AuthPresenter.toLoginResponse(user, "Login successfully");

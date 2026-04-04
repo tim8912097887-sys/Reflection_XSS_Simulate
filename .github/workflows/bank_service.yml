@@ -63,6 +63,14 @@ jobs:
         working-directory: ./central_bank
   test:
     needs: build
+    env:
+      NODE_ENV: test
+      PORT: 3000
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+      LOG_LEVEL: info
+      SALT_ROUNDS: 10
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      SESSION_MAX_AGE: 86400000
     runs-on: ubuntu-latest
 
     steps:

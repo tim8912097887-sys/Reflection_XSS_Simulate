@@ -15,6 +15,6 @@
     // Performance
     "skipLibCheck": true // Skip type checking of declaration files
   },
-  "include": ["src/**/*.ts", "test/**/*"],
+  "include": ["src/**/*.ts", "test/**/*", "jest.config.js"],
   "exclude": ["node_modules"]
 }

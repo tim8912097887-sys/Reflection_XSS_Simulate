@@ -8,6 +8,7 @@ import { authRouter } from "./routes/v1/auth/auth.route.js";
 import session from "express-session";
 import { env } from "./configs/env.js";
 import mongoose from "mongoose";
+import { reflectInputRouter } from "./routes/v1/reflectInput/reflectInput.route.js";
 
 export const initializeApp = (mongoConnection: mongoose.Mongoose) => {
   const app = express();
@@ -52,6 +53,7 @@ export const initializeApp = (mongoConnection: mongoose.Mongoose) => {
 
   // Routes
   app.use("/api/v1/auth", authRouter);
+  app.use("/api/v1/reflect", reflectInputRouter);
   // Error Handler
   app.use(errorHandler);
   app.use(notFoundHandler);
